@@ -15,7 +15,7 @@ public class ModelFactory {
 
     public Builder builder;
 
-    private ModelFactory(Builder builder) {
+    protected ModelFactory(Builder builder) {
         this.builder = builder;
     }
 
@@ -24,24 +24,6 @@ public class ModelFactory {
         BaseItemModel baseItemModel = null;
         try {
             baseItemModel = (BaseItemModel) builder.viewMap.get(modelType).getConstructor(Context.class).newInstance(context);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return baseItemModel;
-    }
-
-    /**
-     * When use the AndroidAnnotations, the View constructor is build method.
-     * @param context
-     * @param modelType
-     * @return
-     */
-    public BaseItemModel createModelByAA(Context context, String modelType){
-        Log.d(TAG, "createModelByAA: " + modelType);
-        BaseItemModel baseItemModel = null;
-        Class<?> owner = builder.viewMap.get(modelType);
-        try {
-            baseItemModel = (BaseItemModel) owner.getMethod("build", new Class[]{Context.class}).invoke(owner, context);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -85,9 +67,9 @@ public class ModelFactory {
 
     public static class Builder{
 
-        private HashMap<String, Class<?>> viewMap;  // 模板类型 -> 模板展示View
-        private HashMap<String, Integer> indexMap;  // 模板类型 -> 模板指针
-        private HashMap<Integer, Boolean> pinnedMap;// 模板指针 -> View是否固定
+        protected HashMap<String, Class<?>> viewMap;  // 模板类型 -> 模板展示View
+        protected HashMap<String, Integer> indexMap;  // 模板类型 -> 模板指针
+        protected HashMap<Integer, Boolean> pinnedMap;// 模板指针 -> View是否固定
 
         public Builder() {
             viewMap = new HashMap<String, Class<?>>();
