@@ -20,10 +20,19 @@ public class ModelFactory {
     }
 
     public BaseItemModel createModel(Context context, String modelType){
-        Log.d(TAG, "createModel: " + modelType);
+//        Log.d(TAG, "createModel: " + modelType);
+//        BaseItemModel baseItemModel = null;
+//        try {
+//            baseItemModel = (BaseItemModel) builder.viewMap.get(modelType).getConstructor(Context.class).newInstance(context);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return baseItemModel;
+        Log.d(TAG, "createModelByAA: " + modelType);
         BaseItemModel baseItemModel = null;
+        Class<?> owner = builder.viewMap.get(modelType);
         try {
-            baseItemModel = (BaseItemModel) builder.viewMap.get(modelType).getConstructor(Context.class).newInstance(context);
+            baseItemModel = (BaseItemModel) owner.getMethod("build", new Class[]{Context.class}).invoke(owner, context);
         } catch (Exception e) {
             e.printStackTrace();
         }

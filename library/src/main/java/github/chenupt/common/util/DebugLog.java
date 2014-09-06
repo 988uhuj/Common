@@ -2,7 +2,7 @@ package github.chenupt.common.util;
 
 import android.util.Log;
 
-import me.roy.common.BuildConfig;
+import github.chenupt.common.BuildConfig;
 
 
 /**
