@@ -1,17 +1,25 @@
 package github.chenupt.talk.fragment;
 
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
+import org.apache.http.Header;
 
 import github.chenupt.common.listhelper.SimpleModelAdapter;
 import github.chenupt.talk.R;
 import github.chenupt.talk.base.BaseFragment;
 import github.chenupt.talk.dataservice.MainDataService;
+import github.chenupt.talk.entity.TComment;
+import github.chenupt.talk.net.TalkHttpResponseHandler;
+import github.chenupt.talk.net.service.NetService;
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
@@ -23,15 +31,23 @@ import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 @EFragment(R.layout.fragment_main)
 public class MainFragment extends BaseFragment{
 
+    public static final String TAG = "MainFragment";
+
     @ViewById(R.id.ptr_layout)
     PullToRefreshLayout pullToRefreshLayout;
-
     @ViewById(R.id.list_view)
     ListView listView;
+    @ViewById(R.id.edit_text)
+    EditText editText;
+    @ViewById(R.id.send_btn)
+    Button sendBtn;
+
 
     SimpleModelAdapter adapter;
     @Bean
     MainDataService mainDataService;
+    @Bean
+    NetService netService;
 
     @AfterViews
     void afterViews(){
@@ -49,6 +65,20 @@ public class MainFragment extends BaseFragment{
 
     private void action(){
         test();
+        long cursor = 0;
+        int pageSize = 20;
+        netService.getMainList(cursor, pageSize, new TalkHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseBody, String action, int status, Object body, String msg) {
+                Log.d("eee", "status" + body);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseBody, Throwable error) {
+                super.onFailure(statusCode, headers, responseBody, error);
+                Log.d("eee", "error" + error);
+            }
+        });
     }
 
     private void test(){
@@ -63,4 +93,28 @@ public class MainFragment extends BaseFragment{
         }
 
     };
+
+    private void postComment(TComment tComment){
+
+        netService.postComment(tComment, new TalkHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseBody, String action, int status, Object body, String msg) {
+
+            }
+        });
+    }
+
+    @Click(R.id.send_btn)
+    void sendClick(){
+        collectData();
+    }
+
+    private void collectData(){
+        String content = editText.getText().toString();
+        TComment tComment = new TComment();
+        tComment.setContent(content);
+        tComment.setUrlKey("test");
+        postComment(tComment);
+    }
+
 }
