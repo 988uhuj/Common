@@ -4,10 +4,10 @@ package github.chenupt.talk.net;
  * Created by chenupt@gmail.com on 2014/5/27.
  * Description : TODO
  */
-public class TalkHttpEntity<T> {
+public class TalkHttpEntity {
     private int status;
     private String action;
-    private T body;
+    private Object body;
     private String msg;
     private int total;
     private int page;
@@ -54,11 +54,11 @@ public class TalkHttpEntity<T> {
         this.msg = msg;
     }
 
-    public T getBody() {
+    public Object getBody() {
         return body;
     }
 
-    public void setBody(T body) {
+    public void setBody(Object body) {
         this.body = body;
     }
 }

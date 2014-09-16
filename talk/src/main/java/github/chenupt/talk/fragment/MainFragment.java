@@ -6,6 +6,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.google.gson.Gson;
+
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
@@ -18,6 +20,7 @@ import github.chenupt.talk.R;
 import github.chenupt.talk.base.BaseFragment;
 import github.chenupt.talk.dataservice.MainDataService;
 import github.chenupt.talk.entity.TComment;
+import github.chenupt.talk.entity.TCommentPage;
 import github.chenupt.talk.net.TalkHttpResponseHandler;
 import github.chenupt.talk.net.service.NetService;
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
@@ -69,8 +72,9 @@ public class MainFragment extends BaseFragment{
         int pageSize = 20;
         netService.getMainList(cursor, pageSize, new TalkHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseBody, String action, int status, Object body, String msg) {
-                Log.d("eee", "status" + body);
+            public void onSuccess(int statusCode, Header[] headers, String responseBody, String action, int status, String body, String msg) {
+                TCommentPage tCommentPage = new Gson().fromJson(body, TCommentPage.class);
+                Log.d("eee", "status：" + body);
             }
 
             @Override
@@ -98,7 +102,7 @@ public class MainFragment extends BaseFragment{
 
         netService.postComment(tComment, new TalkHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseBody, String action, int status, Object body, String msg) {
+            public void onSuccess(int statusCode, Header[] headers, String responseBody, String action, int status, String body, String msg) {
 
             }
         });

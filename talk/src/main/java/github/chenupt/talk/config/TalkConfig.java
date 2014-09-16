@@ -6,7 +6,7 @@ package github.chenupt.talk.config;
  */
 public class TalkConfig {
 
-    public static final String BASE_URL = "http://192.168.137.1:8080";
+    public static final String BASE_URL = "http://192.168.88.148:8080";
     public final static String POST_PARAM = "param";
     public final static String CURSOR = "cursor";
     public final static String PAGE_SIZE = "pageSize";
