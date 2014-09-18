@@ -54,14 +54,17 @@ public class DefaultLoadView extends LoadFooterView {
     }
 
     @Override
-    public void onEndLoad() {
-        setVisibility(View.INVISIBLE);
-        textView.setText(R.string.common_default_loading);
+    public void onEndLoad(boolean hasMore) {
+        if(hasMore){
+            setVisibility(View.INVISIBLE);
+            textView.setText(R.string.common_default_loading);
+        }
     }
 
     @Override
     public void onNoMore() {
         setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
         textView.setText(R.string.common_default_no_more);
     }
 

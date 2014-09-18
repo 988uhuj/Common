@@ -12,11 +12,10 @@ public class LoadListView extends ListView{
 	private String TAG = "LoadListView";
 	private boolean isLoading;
 	private boolean enableAutoLoad;
+    private boolean hasMore = true;
 	
 	private OnLoadListener listener;
-
     private LoadFooterView footView;
-
     private ListView listview;
 
 	private int scrollPos;
@@ -76,7 +75,7 @@ public class LoadListView extends ListView{
 	
 	private void stop() {
 		isLoading = false;
-        footView.onEndLoad();
+        footView.onEndLoad(hasMore);
 	}
 	
 	
@@ -121,6 +120,16 @@ public class LoadListView extends ListView{
 	public void setEnableAutoLoad(boolean isEnableAutoLoad){
 		this.enableAutoLoad = isEnableAutoLoad;
 	}
+
+    public void setMore(boolean hasMore){
+        this.enableAutoLoad = hasMore;
+        this.hasMore = hasMore;
+        if(hasMore){
+            footView.onStartLoad();
+        }else{
+            footView.onNoMore();
+        }
+    }
 	
 	
 

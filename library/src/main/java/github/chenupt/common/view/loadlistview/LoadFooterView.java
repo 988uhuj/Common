@@ -24,7 +24,7 @@ public abstract class LoadFooterView extends FrameLayout {
     public void onStartLoad(){
 
     }
-    public void onEndLoad(){
+    public void onEndLoad(boolean hasMore){
 
     }
     public void onNoMore(){
