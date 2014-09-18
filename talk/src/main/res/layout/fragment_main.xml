@@ -9,8 +9,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ListView
+        <github.chenupt.common.view.loadlistview.LoadListView
             android:id="@+id/list_view"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:cacheColorHint="@null"
+            android:listSelector="@android:color/transparent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 

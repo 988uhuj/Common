@@ -3,6 +3,7 @@ package github.chenupt.talk.net;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.apache.http.Header;
@@ -22,11 +23,11 @@ public abstract class TalkHttpResponseHandler extends TextHttpResponseHandler {
 //        TalkHttpEntity<String> talkHttpEntity = new Gson().fromJson(responseBody, new TypeToken<TalkHttpEntity<String>>(){}.getType());
         TalkHttpEntity talkHttpEntity = new Gson().fromJson(responseBody, TalkHttpEntity.class);
 //        TalkHttpEntity talkHttpEntity = JsonUtil.fromJsonToObject(responseBody, TalkHttpEntity.class);
-        Log.d(TAG, "onSuccess : " + talkHttpEntity.getBody().toString());
+        Log.d(TAG, "onSuccess : " + talkHttpEntity.getBody());
         onSuccess(statusCode, headers, responseBody,
                 talkHttpEntity.getAction(),
                 talkHttpEntity.getStatus(),
-                talkHttpEntity.getBody().toString(),
+                talkHttpEntity.getBody(),
                 talkHttpEntity.getMsg());
     }
 
@@ -37,6 +38,6 @@ public abstract class TalkHttpResponseHandler extends TextHttpResponseHandler {
 
 
 
-    public abstract void onSuccess(int statusCode, Header[] headers, String responseBody, String action, int status, String body, String msg);
+    public abstract void onSuccess(int statusCode, Header[] headers, String responseBody, String action, int status, JsonObject body, String msg);
 
 }

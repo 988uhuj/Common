@@ -104,7 +104,7 @@ public class LoadListView extends ListView{
         listener.onLoad();
 	}
 	
-	public void stopLoad(){
+	public void setLoadComplete(){
 		stop();
 	}
 

@@ -2,6 +2,7 @@ package github.chenupt.common.view.loadlistview;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -32,15 +33,18 @@ public class DefaultLoadView extends LoadFooterView {
     }
 
     private void init(){
-        View.inflate(getContext(), R.layout.common_view_item_footer_default, this);
+        onFinishInflate();
     }
 
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
+        LayoutInflater.from(getContext()).inflate(R.layout.common_view_item_footer_default, this);
         container = findViewById(R.id.footer_container);
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         textView = (TextView) findViewById(R.id.footer_text_view);
+
+
     }
 
     @Override
@@ -60,6 +64,7 @@ public class DefaultLoadView extends LoadFooterView {
         setVisibility(View.VISIBLE);
         textView.setText(R.string.common_default_no_more);
     }
+
 
     @Override
     public void setOnClickListener(OnClickListener onClickListener) {

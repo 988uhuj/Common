@@ -9,7 +9,7 @@ import java.util.List;
 public class TCommentPage {
 
     private Long cursor;
-    private List<TComment> tCommentList;
+    private List<TComment> commentList;
 
     public Long getCursor() {
         return cursor;
@@ -19,11 +19,11 @@ public class TCommentPage {
         this.cursor = cursor;
     }
 
-    public List<TComment> gettCommentList() {
-        return tCommentList;
+    public List<TComment> getCommentList() {
+        return commentList;
     }
 
-    public void settCommentList(List<TComment> tCommentList) {
-        this.tCommentList = tCommentList;
+    public void setCommentList(List<TComment> commentList) {
+        this.commentList = commentList;
     }
 }

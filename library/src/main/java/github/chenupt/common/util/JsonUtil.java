@@ -9,10 +9,12 @@ import org.codehaus.jackson.map.SerializationConfig;
 import org.codehaus.jackson.map.ser.FilterProvider;
 import org.codehaus.jackson.map.ser.impl.SimpleBeanPropertyFilter;
 import org.codehaus.jackson.map.ser.impl.SimpleFilterProvider;
+import org.codehaus.jackson.type.JavaType;
 import org.codehaus.jackson.type.TypeReference;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Set;
 
 
@@ -70,6 +72,23 @@ public class JsonUtil {
     public static <T> T fromJsonToObject(String json, Class<T> valueType) {
         ObjectMapper mapper = new ObjectMapper();
         try {
+            return (T) mapper.readValue(json, valueType);
+        } catch (JsonParseException e) {
+            e.printStackTrace();
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static <T> T fromJsonToObject(String json, Class<T> valueType, Class<?> childType) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            JavaType type = mapper.getTypeFactory().constructCollectionType(List.class, childType.getClass());
             return (T) mapper.readValue(json, valueType);
         } catch (JsonParseException e) {
             e.printStackTrace();

@@ -14,4 +14,8 @@
     <color name="orange">#FADCA7</color>
     <color name="yellow">#EEFF41</color>
     <color name="default_background">#3d3d3d</color>
+
+    <color name="common_bg_gray">#eeeeee</color>
+    <color name="common_text_gray">#9c9c9c</color>
+    <color name="common_line_color">#dddddd</color>
 </resources>
