@@ -30,6 +30,7 @@ import github.chenupt.talk.net.TalkHttpResponseHandler;
 import github.chenupt.talk.net.service.NetService;
 import github.chenupt.talk.utils.Constants;
 import github.chenupt.talk.utils.Page;
+import github.chenupt.talk.utils.ToastUtil;
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
@@ -111,6 +112,7 @@ public class MainFragment extends BaseFragment{
 
     private void handleData(boolean isRefresh, TCommentPage tCommentPage){
         if (isRefresh) {
+            ToastUtil.show(getActivity(), "成功加载" + page.getPageSize() + "条");
             adapter.clearList();
         }
         List<SimpleItemEntity> list = mainDataService.wrapMainList(tCommentPage);
