@@ -6,7 +6,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -95,8 +94,8 @@ public class MainFragment extends BaseFragment{
     private void netGetComment(final boolean isRefresh){
         netService.getMainList(page.getCursor(isRefresh), page.getPageSize(), new TalkHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseBody, String action, int status, JsonObject body, String msg) {
-                TCommentPage tCommentPage = new Gson().fromJson(body, TCommentPage.class);
+            public void onSuccess(int statusCode, Header[] headers, String responseBody, String action, int status, Object body, String msg) {
+                TCommentPage tCommentPage = new Gson().fromJson(body.toString(), TCommentPage.class);
                 handleData(isRefresh, tCommentPage);
                 loadFinish();
             }
@@ -111,16 +110,17 @@ public class MainFragment extends BaseFragment{
     }
 
     private void handleData(boolean isRefresh, TCommentPage tCommentPage){
-        if (isRefresh) {
-            ToastUtil.show(getActivity(), "成功加载" + page.getPageSize() + "条");
-            adapter.clearList();
-        }
         List<SimpleItemEntity> list = mainDataService.wrapMainList(tCommentPage);
+        if (isRefresh) {
+            ToastUtil.show(getActivity(), "成功刷新 " + list.size() + " 条");
+            adapter.clearList();
+            listView.setMore(true);
+        }
         adapter.addList(list);
 
         page.setNextCursor(tCommentPage.getCursor());
         if(tCommentPage.getCommentList().size() < page.getPageSize() || tCommentPage.getCursor() == 0L){
-            listView.setEnableAutoLoad(false);
+            listView.setMore(false);
         }
     }
 
@@ -143,8 +143,12 @@ public class MainFragment extends BaseFragment{
 
         netService.postComment(tComment, new TalkHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseBody, String action, int status, JsonObject body, String msg) {
+            public void onSuccess(int statusCode, Header[] headers, String responseBody, String action, int status, Object body, String msg) {
+            }
 
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseBody, Throwable error) {
+                super.onFailure(statusCode, headers, responseBody, error);
             }
         });
     }

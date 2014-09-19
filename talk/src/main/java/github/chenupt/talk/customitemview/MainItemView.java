@@ -33,6 +33,7 @@ public class MainItemView extends BaseItemModel<TComment> {
     @Override
     public void bindView() {
         contentTextView.setText(model.getContent().getContent());
+        titleTextView.setText(R.string.comment_title);
         timeTextView.setText(new DateTime(model.getContent().getCreateTime()).toString("yyyy-MM-dd HH:mm"));
     }
 }

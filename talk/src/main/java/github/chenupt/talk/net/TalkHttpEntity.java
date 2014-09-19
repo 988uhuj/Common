@@ -1,7 +1,5 @@
 package github.chenupt.talk.net;
 
-import com.google.gson.JsonObject;
-
 /**
  * Created by chenupt@gmail.com on 2014/5/27.
  * Description : TODO
@@ -9,7 +7,7 @@ import com.google.gson.JsonObject;
 public class TalkHttpEntity {
     private int status;
     private String action;
-    private JsonObject body;
+    private Object body;
     private String msg;
     private int total;
     private int page;
@@ -56,11 +54,11 @@ public class TalkHttpEntity {
         this.msg = msg;
     }
 
-    public JsonObject getBody() {
+    public Object getBody() {
         return body;
     }
 
-    public void setBody(JsonObject body) {
+    public void setBody(Object body) {
         this.body = body;
     }
 }

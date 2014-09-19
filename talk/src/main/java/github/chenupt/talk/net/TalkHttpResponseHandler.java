@@ -2,11 +2,11 @@ package github.chenupt.talk.net;
 
 import android.util.Log;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.apache.http.Header;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 /**
@@ -21,14 +21,27 @@ public abstract class TalkHttpResponseHandler extends TextHttpResponseHandler {
     public void onSuccess(int statusCode, Header[] headers, String responseBody) {
         Log.d(TAG, "onSuccess : " + responseBody);
 //        TalkHttpEntity<String> talkHttpEntity = new Gson().fromJson(responseBody, new TypeToken<TalkHttpEntity<String>>(){}.getType());
-        TalkHttpEntity talkHttpEntity = new Gson().fromJson(responseBody, TalkHttpEntity.class);
+//        TalkHttpEntity talkHttpEntity = new Gson().fromJson(responseBody, TalkHttpEntity.class);
 //        TalkHttpEntity talkHttpEntity = JsonUtil.fromJsonToObject(responseBody, TalkHttpEntity.class);
-        Log.d(TAG, "onSuccess : " + talkHttpEntity.getBody());
-        onSuccess(statusCode, headers, responseBody,
-                talkHttpEntity.getAction(),
-                talkHttpEntity.getStatus(),
-                talkHttpEntity.getBody(),
-                talkHttpEntity.getMsg());
+        try {
+            TalkHttpEntity talkHttpEntity = new TalkHttpEntity();
+            JSONObject jsonObject = new JSONObject(responseBody);
+            JSONObject bodyJsonObject = null;
+            if (!jsonObject.isNull("body")) {
+                bodyJsonObject = jsonObject.getJSONObject("body");
+                Log.d(TAG, "jo: " + bodyJsonObject.toString());
+            }
+            talkHttpEntity.setBody(bodyJsonObject);
+            Log.d(TAG, "onSuccess : " + talkHttpEntity.getBody());
+            onSuccess(statusCode, headers, responseBody,
+                    talkHttpEntity.getAction(),
+                    talkHttpEntity.getStatus(),
+                    talkHttpEntity.getBody(),
+                    talkHttpEntity.getMsg());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -37,7 +50,6 @@ public abstract class TalkHttpResponseHandler extends TextHttpResponseHandler {
     }
 
 
-
-    public abstract void onSuccess(int statusCode, Header[] headers, String responseBody, String action, int status, JsonObject body, String msg);
+    public abstract void onSuccess(int statusCode, Header[] headers, String responseBody, String action, int status, Object body, String msg);
 
 }
