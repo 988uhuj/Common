@@ -1,1 +1,1 @@
-include ':library', ':sample', ':talk'
+include ':library', ':sample', ':talk', ':ImageShower'

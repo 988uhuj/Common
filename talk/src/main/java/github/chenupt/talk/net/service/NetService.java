@@ -23,10 +23,11 @@ public class NetService {
      * @param cursor
      * @param handler
      */
-    public void getMainList(long cursor, int pageSize, TalkHttpResponseHandler handler){
+    public void getMainList(long cursor, int pageSize, String urlKey, TalkHttpResponseHandler handler){
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(TalkConfig.CURSOR, cursor);
         map.put(TalkConfig.PAGE_SIZE, pageSize);
+        map.put("urlKey", urlKey);
         TalkHttpClient.postService(UrlManager.QUERY_COMMENT, map, handler);
     }
 

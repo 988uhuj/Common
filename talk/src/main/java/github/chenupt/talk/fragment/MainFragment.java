@@ -1,11 +1,8 @@
 package github.chenupt.talk.fragment;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
-import com.google.gson.Gson;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -61,6 +58,9 @@ public class MainFragment extends BaseFragment{
     @Bean
     Page page;
 
+//    @Extra
+    String uriKey = "test";
+
     @AfterViews
     void afterViews(){
         adapter = new SimpleModelAdapter(getActivity(), mainDataService.getFactory());
@@ -92,21 +92,21 @@ public class MainFragment extends BaseFragment{
     }
 
     private void netGetComment(final boolean isRefresh){
-        netService.getMainList(page.getCursor(isRefresh), page.getPageSize(), new TalkHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseBody, String action, int status, Object body, String msg) {
-                TCommentPage tCommentPage = new Gson().fromJson(body.toString(), TCommentPage.class);
-                handleData(isRefresh, tCommentPage);
-                loadFinish();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseBody, Throwable error) {
-                super.onFailure(statusCode, headers, responseBody, error);
-                Log.d("eee", "error" + error);
-                loadFinish();
-            }
-        });
+//        netService.getMainList(page.getCursor(isRefresh), page.getPageSize(), new TalkHttpResponseHandler() {
+//            @Override
+//            public void onSuccess(int statusCode, Header[] headers, String responseBody, String action, int status, Object body, String msg) {
+//                TCommentPage tCommentPage = new Gson().fromJson(body.toString(), TCommentPage.class);
+//                handleData(isRefresh, tCommentPage);
+//                loadFinish();
+//            }
+//
+//            @Override
+//            public void onFailure(int statusCode, Header[] headers, String responseBody, Throwable error) {
+//                super.onFailure(statusCode, headers, responseBody, error);
+//                Log.d("eee", "error" + error);
+//                loadFinish();
+//            }
+//        });
     }
 
     private void handleData(boolean isRefresh, TCommentPage tCommentPage){
